@@ -13,10 +13,11 @@ let io = socketIO(server)
 app.use(express.static(publicpath))
 io.on("connection",(socket)=>{
   console.log("New user connected");
-})
-io.on("disconnect",(socket)=>{
-    console.log("User disconnected");
+  socket.on('disconnect',(socket)=>{
+    console.log('User disconnected')
   })
+})
+
 server.listen(port,()=>{
     console.log(`Server is running on port ${port}...`)
 })
