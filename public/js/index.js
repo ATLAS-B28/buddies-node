@@ -13,10 +13,15 @@ socket.on('new',(message)=>{
   //we input a message and since the message is
   //boardcasted to all but not to use 
   console.log('new message: ',message);
-  const formatedTime = moment(message.createdAt).format('LT')
-  let li = document.createElement('li')
-  li.innerText = `${message.from} ${formatedTime}: ${message.text}`
-  document.querySelector('body').appendChild(li)
+  const template = document.querySelector('#message-template').innerHTML
+  //render the things from the script take it to index.html
+  const renderHtml = Mustache.render(template)
+  //append the thing
+  document.querySelector('#messages').append(renderHtml)
+  //const formatedTime = moment(message.createdAt).format('LT')
+  //let li = document.createElement('li')
+  //li.innerText = `${message.from} ${formatedTime}: ${message.text}`
+  //document.querySelector('#messages').appendChild(li)
 })
 //new message geolocation
 socket.on('newLocation',(message)=>{
