@@ -13,29 +13,37 @@ socket.on('new',(message)=>{
   //we input a message and since the message is
   //boardcasted to all but not to use 
   console.log('new message: ',message);
+  const formatedTime = moment(message.createdAt).format('LT')
   const template = document.querySelector('#message-template').innerHTML
   //render the things from the script take it to index.html
-  const renderHtml = Mustache.render(template)
+  const renderHtml = Mustache.render(template,{
+    from:message.from,
+    text:message.text,
+    createdAt:formatedTime
+  })//we render template with the data
+  //element()
+  const div = document.createElement('div')
+  div.innerHTML = renderHtml //we set the elemwnt in a proper html
   //append the thing
-  document.querySelector('#messages').append(renderHtml)
-  //const formatedTime = moment(message.createdAt).format('LT')
-  //let li = document.createElement('li')
-  //li.innerText = `${message.from} ${formatedTime}: ${message.text}`
-  //document.querySelector('#messages').appendChild(li)
+  document.querySelector('#messages').appendChild(div)
+
 })
 //new message geolocation
 socket.on('newLocation',(message)=>{
-  //we input a message and since the message is
-  //boardcasted to all but not to use 
+
   console.log('new location message: ',message);
-  let li = document.createElement('li')
-  let  a = document.createElement('a')
-  a.setAttribute('target','_link')
-  a.setAttribute('href',message.url)
-  a.innerText = 'My Current Location'
-  
-  li.appendChild(a)
-  document.querySelector('body').appendChild(li)
+  const formatedTime = moment(message.createdAt).format('LT')
+  const template = document.querySelector('#location-message-template').innerHTML
+
+  //render the things from the script take it to index.html
+  const renderHtml = Mustache.render(template,{
+    from:message.from,
+    url:message.url,
+    createdAt:formatedTime
+  })
+  const div = document.createElement('div')
+  div.innerHTML = renderHtml
+  document.querySelector('#messages').appendChild(div)
 })
 
 //to prevent refresh and grab the input
