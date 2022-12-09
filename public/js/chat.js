@@ -25,7 +25,23 @@ socket.on("connect",()=>{
 socket.on('disconnect',()=>{
  console.log('Disconnected from the server');
 })
+socket.on('updateUsersList',(users)=>{
+  //ordered list of users
+  let ol = document.createElement('ol')
+  //loop through the array
+  users.forEach((user)=>{
+    let li = document.createElement('li')
+    li.innerHTML = user//it is a name
+    //append
+    ol.appendChild(li)
 
+  })
+  //append ol to user list
+  let usersList = document.querySelector('#users')
+  //empty the list first
+  usersList.innerHTML = ""
+  usersList.appendChild(ol)
+})
 //event name same name as the one in the server
 socket.on('new',(message)=>{
   //we input a message and since the message is
@@ -71,7 +87,7 @@ document.querySelector('#submit-btn')
   e.preventDefault()
   socket.emit("create",{
     //data we create is
-    from:'User',
+   
     text:document.querySelector('input[name="message"]').value
   },function(){
 
